@@ -2,6 +2,7 @@ package com.example.delta_feed
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +31,9 @@ fun FeedCard (
     modifier : Modifier = Modifier,
     images : List<Int>,
     userId : List<String>,
-    displayProfile : Int
+    displayProfile : List<Int>,
+    goToProfile : () -> Unit,
+    pronouns : List<String>
 ) {
     Column (
         modifier.padding(top = 0.dp),
@@ -38,7 +41,9 @@ fun FeedCard (
         CardHead (
             modifier = Modifier.padding(top = 24.dp),
             userId = userId,
-            displayProfile = displayProfile
+            displayProfile = displayProfile,
+            goToProfile = goToProfile,
+            pronouns = pronouns
         )
 
         ScrollableImages(images = images)
@@ -51,7 +56,9 @@ fun FeedCard (
 fun CardHead (
     modifier : Modifier,
     userId : List<String>,
-    displayProfile : Int
+    displayProfile : List<Int>,
+    goToProfile: () -> Unit,
+    pronouns: List<String>
 ) {
     val colors = MaterialTheme.colorScheme
 
@@ -69,29 +76,51 @@ fun CardHead (
             Box (
                 contentAlignment = Alignment.Center,
             ) {
-                Image (
-                    painter = painterResource(id = displayProfile),
-                    contentDescription = "Display Profile",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .height(36.dp),
-                    colorFilter = ColorFilter.tint(colors.onBackground, BlendMode.SrcIn)
-                )
+                displayProfile.forEach { i ->
+                    Image (
+                        painter = painterResource(id = displayProfile[0]),
+                        contentDescription = "Display Profile",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .height(36.dp),
+                        colorFilter = ColorFilter.tint(colors.onBackground, BlendMode.SrcIn)
+                    )
 
-                HollowCircle (
-                    modifier = Modifier.size(36.dp)
-                )
+                    HollowCircle (
+                        modifier = Modifier.size(36.dp)
+                    )
+                }
             }
 
-            Text (
-                text = userId.joinToString(" & "),
-                modifier = Modifier.padding(start = 16.dp),
-                color = colors.onBackground,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Light,
-                letterSpacing = 1.sp
-            )
+            userId.forEach { user ->
+                Text (
+                    text = user,
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .clickable {
+                            name.value = user
+                            pronoun.value = pronouns[0]
+                            displayPicture.value = displayProfile[0]
+                            postFollowFollowing.value = listOf(78, 600, 800)
+                            goToProfile()
+                        },
+                    color = colors.onBackground,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Light,
+                    letterSpacing = 1.sp
+                )
+
+                if (userId.size > 1 && userId.indexOf(user) != userId.size - 1) {
+                    Text (
+                        text = " &",
+                        modifier = Modifier.padding(start = 4.dp),
+                        color = colors.onBackground,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Light
+                    )
+                }
+            }
         }
 
         HorizontalLine(modifier = Modifier

@@ -32,7 +32,8 @@ import androidx.navigation.NavController
 val name = mutableStateOf("Ansh Gujral")
 val postFollowFollowing = mutableStateOf(listOf(25, 500, 200))
 val displayPicture = mutableStateOf(R.drawable.john)
-val posts = listOf (R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image2, R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image2, R.drawable.image1)
+var posts = listOf (R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image2, R.drawable.image1, R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image2, R.drawable.image1)
+var pronoun = mutableStateOf("he/him")
 
 @Composable
 fun ProfilePage (
@@ -135,7 +136,7 @@ fun ProfilePage (
                 )
 
                 Text (
-                    text = " he/him",
+                    text = " ${pronoun.value}",
                     fontSize = 20.sp,
                     modifier = Modifier.padding(top = 12.dp),
                     fontWeight = FontWeight.Normal

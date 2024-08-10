@@ -1,6 +1,5 @@
 package com.example.delta_feed
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,26 +10,21 @@ import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 
 data class BottomNavigationItem (
     val title: String,
@@ -58,6 +52,8 @@ val items = listOf (
 @Composable
 fun DeltaBottomAppBar (navController : NavController) {
     val colors = MaterialTheme.colorScheme
+    val inProfile = navController.currentBackStackEntryAsState().value?.destination?.route == items[1].route
+    val inHome = navController.currentBackStackEntryAsState().value?.destination?.route == items[0].route
 
     NavigationBar (
         containerColor = colors.background,
@@ -77,10 +73,12 @@ fun DeltaBottomAppBar (navController : NavController) {
                     horizontalArrangement = Arrangement.Center
                 ) {
                     IconButton (
-                        onClick = { navController.navigate(items[0].route) },
+                        onClick = {
+                            if (!inHome) navController.navigate(items[0].route)
+                        },
                         modifier = Modifier.padding(end = 16.dp)
                     ) {
-                        Icon(
+                        Icon (
                             imageVector = if (navController.currentBackStackEntryAsState().value?.destination?.route == items[0].route) items[0].selectedIcon else items[0].unselectedIcon,
                             contentDescription = items[0].title,
                             modifier = Modifier.scale(1.2f),
@@ -90,12 +88,28 @@ fun DeltaBottomAppBar (navController : NavController) {
 
                     IconButton (
                         onClick = {
-                            navController.navigate(items[1].route)
-
+                            if (!inProfile) {
+                                name.value = "Ansh Gujral"
+                                displayPicture.value = R.drawable.john
+                                postFollowFollowing.value = listOf(25, 500, 200)
+                                posts = listOf(
+                                    R.drawable.image1,
+                                    R.drawable.image2,
+                                    R.drawable.image3,
+                                    R.drawable.image2,
+                                    R.drawable.image1,
+                                    R.drawable.image1,
+                                    R.drawable.image2,
+                                    R.drawable.image3,
+                                    R.drawable.image2,
+                                    R.drawable.image1
+                                )
+                                navController.navigate(items[1].route)
+                            }
                         },
                         modifier = Modifier.padding(start = 16.dp)
                     ) {
-                        Icon(
+                        Icon (
                             imageVector = if (navController.currentBackStackEntryAsState().value?.destination?.route == items[1].route) items[1].selectedIcon else items[1].unselectedIcon,
                             contentDescription = items[1].title,
                             modifier = Modifier.scale(1.2f),

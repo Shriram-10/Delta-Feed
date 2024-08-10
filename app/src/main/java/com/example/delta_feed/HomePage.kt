@@ -37,14 +37,18 @@ fun HomePage (navController : NavController) {
                             images = listOf (R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image2, R.drawable.image1),
                             modifier = Modifier.padding(bottom = 24.dp),
                             userId = listOf("delta_nitt"),
-                            displayProfile = R.drawable.deltalogo
+                            displayProfile = listOf(R.drawable.deltalogo),
+                            goToProfile = { navController.navigate(Screen.Profile.route) },
+                            pronouns = listOf("they/them")
                         )
 
                         FeedCard (
                             images = listOf (R.drawable.image1, R.drawable.image2, R.drawable.image3, R.drawable.image2, R.drawable.image1),
                             modifier = Modifier.padding(bottom = 24.dp),
                             userId = listOf("don_wick", "_selvanayagam_"),
-                            displayProfile = R.drawable.john
+                            displayProfile = listOf(R.drawable.john),
+                            goToProfile = { navController.navigate(Screen.Profile.route) },
+                            pronouns = listOf("he/him", "he/him")
                         )
                     }
                 }
